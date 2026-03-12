@@ -159,6 +159,10 @@
       margin: 0 auto;
     }
 
+    .site-shell-wide {
+      width: min(1220px, calc(100% - 2rem));
+    }
+
     .site-header {
       position: sticky;
       top: 0;
@@ -170,7 +174,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 0.75rem;
       padding: 0.85rem 1rem;
       border: 1px solid var(--border);
       border-radius: 999px;
@@ -183,6 +187,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      flex: 0 1 auto;
       min-width: 0;
     }
 
@@ -239,17 +244,20 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
-      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.2rem;
+      flex-wrap: nowrap;
+      min-width: 0;
     }
 
     .nav-links a,
     .theme-toggle {
       border: 1px solid transparent;
       border-radius: 999px;
-      padding: 0.7rem 0.95rem;
+      padding: 0.65rem 0.8rem;
       color: var(--muted);
       text-decoration: none;
+      white-space: nowrap;
       transition: border-color 160ms ease, background 160ms ease, color 160ms ease,
         transform 160ms ease;
     }
@@ -648,15 +656,31 @@
       outline-offset: 3px;
     }
 
-    @media (max-width: 960px) {
-      .site-shell {
-        width: min(1120px, calc(100% - 1.2rem));
+    @media (max-width: 1180px) {
+      .site-shell-wide {
+        width: min(1220px, calc(100% - 1.2rem));
       }
 
       .nav-bar {
         border-radius: 1.5rem;
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .site-shell {
+        width: min(1120px, calc(100% - 1.2rem));
+      }
+
+      .site-shell-wide {
+        width: min(1220px, calc(100% - 1.2rem));
       }
 
       .hero,
@@ -706,8 +730,8 @@
 </head>
 
 <body>
-  <div class="site-shell">
-    <header class="site-header">
+  <header class="site-header">
+    <div class="site-shell site-shell-wide">
       <div class="nav-bar">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true"></div>
@@ -720,14 +744,17 @@
           <a href="#why">Why this page</a>
           <a href="#risks">What can go wrong</a>
           <a href="#checklist">Before you tap</a>
+          <a href="#use">Can I use this?</a>
           <button class="theme-toggle" data-theme-toggle disabled type="button">
             <span class="theme-dot" aria-hidden="true"></span>
             <span data-theme-label>Theme: Auto</span>
           </button>
         </nav>
       </div>
-    </header>
+    </div>
+  </header>
 
+  <div class="site-shell">
     <main>
       <section class="hero" id="top">
         <div class="panel hero-copy">
@@ -881,15 +908,52 @@
               </p>
             </article>
           </div>
-          <div class="footer">
-            <div>
+        </section>
+
+        <section class="panel section-block" id="use">
+          <h2>Can I use this?</h2>
+          <p class="section-intro">
+            Yes. It is MIT licensed and available on GitHub, so feel free to reuse the background
+            in your own Teams, Zoom, Slack, or similar setup.
+          </p>
+          <div class="story-grid">
+            <article class="story-card">
+              <span class="story-index">01</span>
+              <h3>Go to GitHub</h3>
               <p>
-                Page by
-                <a class="soft-link" href="https://github.com/haukened/qr">@haukened on GitHub</a>.
+                Start at
+                <a class="soft-link" href="https://github.com/haukened/qr">@haukened on GitHub</a>
+                and grab the project files from the repo.
               </p>
-              <small>MIT License. Anyone is welcome to publicly link to this page.</small>
+            </article>
+            <article class="story-card">
+              <span class="story-index">02</span>
+              <h3>Download the background</h3>
+              <p>
+                Pull the image you want from the
+                <a class="soft-link" href="https://github.com/haukened/qr/tree/main/assets"><code>./assets/</code>
+                  folder</a>.
+              </p>
+            </article>
+            <article class="story-card">
+              <span class="story-index">03</span>
+              <h3>Set it as your background</h3>
+              <p>
+                Use it in Teams, Zoom, Slack, or whatever video chat tool you use to bait people
+                into reading the lesson.
+              </p>
+            </article>
+          </div>
+          <div class="callout">
+            <div>
+              <h3>Too long! Just give me the background!</h3>
+              <p>
+                Ok fine, here is a direct link to the full background image for you to download and use. Just tell your
+                friends.
+              </p>
             </div>
-            <a class="soft-link" href="#top">Back to top</a>
+            <a class="button button-secondary" href="https://qr.hauken.us/assets/bg_1920_1080.png">Download the
+              background</a>
           </div>
         </section>
       </div>
