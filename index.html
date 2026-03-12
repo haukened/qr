@@ -20,6 +20,7 @@
       }
     </style>
   </noscript>
+
   <style>
     :root {
       color-scheme: light;
@@ -285,6 +286,70 @@
       cursor: default;
     }
 
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text);
+      background: color-mix(in srgb, var(--surface) 84%, transparent);
+      cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle:focus-visible {
+      border-color: var(--border);
+      background: var(--surface);
+      transform: translateY(-1px);
+    }
+
+    .menu-toggle-icon,
+    .menu-toggle-icon::before,
+    .menu-toggle-icon::after {
+      display: block;
+      width: 1rem;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .menu-toggle-icon {
+      position: relative;
+    }
+
+    .menu-toggle-icon::before,
+    .menu-toggle-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+    }
+
+    .menu-toggle-icon::before {
+      top: -0.35rem;
+    }
+
+    .menu-toggle-icon::after {
+      top: 0.35rem;
+    }
+
+    .nav-bar[data-menu-open="true"] .menu-toggle-icon {
+      background: transparent;
+    }
+
+    .nav-bar[data-menu-open="true"] .menu-toggle-icon::before {
+      transform: translateY(0.35rem) rotate(45deg);
+    }
+
+    .nav-bar[data-menu-open="true"] .menu-toggle-icon::after {
+      transform: translateY(-0.35rem) rotate(-45deg);
+    }
+
     .theme-dot {
       width: 0.8rem;
       height: 0.8rem;
@@ -365,6 +430,10 @@
       color: var(--muted);
     }
 
+    .hero-copy h2 {
+      margin-top: 1em;
+    }
+
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
@@ -440,6 +509,7 @@
     }
 
     .scan-card {
+      margin-top: 1em;
       display: grid;
       place-items: center;
       min-height: 24rem;
@@ -702,15 +772,75 @@
     }
 
     @media (max-width: 640px) {
+
+      .site-shell,
+      .site-shell-wide {
+        width: min(1220px, calc(100% - 0.75rem));
+      }
+
+      .site-header {
+        padding: 0.45rem 0 0;
+      }
+
+      .nav-bar {
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+        row-gap: 0.6rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 1.25rem;
+      }
+
+      .brand {
+        flex: 1 1 0;
+        gap: 0.6rem;
+      }
+
+      .brand-mark {
+        width: 2.2rem;
+        height: 2.2rem;
+        flex: 0 0 auto;
+      }
+
+      .brand-title {
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
+        line-height: 1.2;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        margin-left: auto;
+      }
+
       .nav-links {
         width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding-top: 0;
+      }
+
+      .nav-bar[data-menu-open="true"] .nav-links {
+        display: flex;
       }
 
       .nav-links a,
       .theme-toggle {
-        flex: 1 1 calc(50% - 0.35rem);
-        justify-content: center;
-        text-align: center;
+        width: 100%;
+        padding: 0.75rem 0.85rem;
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      section {
+        scroll-margin-top: 4.75rem;
       }
 
       .hero-copy,
@@ -732,7 +862,7 @@
 <body>
   <header class="site-header">
     <div class="site-shell site-shell-wide">
-      <div class="nav-bar">
+      <div class="nav-bar" data-menu-open="false">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true"></div>
           <div class="brand-copy">
@@ -740,7 +870,11 @@
             <p class="brand-subtitle">Meeting background bait. Real advice.</p>
           </div>
         </div>
-        <nav class="nav-links" aria-label="Section navigation">
+        <button class="menu-toggle" data-menu-toggle aria-controls="site-menu" aria-expanded="false"
+          aria-label="Toggle navigation menu" type="button">
+          <span class="menu-toggle-icon" aria-hidden="true"></span>
+        </button>
+        <nav class="nav-links" id="site-menu" aria-label="Section navigation">
           <a href="#why">Why this page</a>
           <a href="#risks">What can go wrong</a>
           <a href="#checklist">Before you tap</a>
@@ -771,7 +905,9 @@
           <div class="hero-actions">
             <a class="button button-primary" href="#why">Tell me why</a>
             <a class="button button-secondary" href="#checklist">Give me the checklist</a>
+            <a class="button button-secondary" href="#use">Give me the background</a>
           </div>
+          <h2>Key Points</h2>
           <ul class="hero-tags" aria-label="Key points">
             <li>QR codes hide the destination until after you scan.</li>
             <li>Attackers love that extra layer of ambiguity.</li>
@@ -952,7 +1088,8 @@
                 friends.
               </p>
             </div>
-            <a class="button button-secondary" href="https://qr.hauken.us/assets/bg_1920_1080.png">Download the
+            <a class="button button-primary" data-download-link download="qr_background.png"
+              href="https://qr.hauken.us/assets/bg_1920_1080.png">Download the
               background</a>
           </div>
         </section>
@@ -963,10 +1100,15 @@
   <script>
     (() => {
       const root = document.documentElement;
+      const navBar = document.querySelector(".nav-bar");
+      const menuToggle = document.querySelector("[data-menu-toggle]");
+      const navLinks = document.querySelector(".nav-links");
+      const downloadLinks = document.querySelectorAll("[data-download-link]");
       const toggle = document.querySelector("[data-theme-toggle]");
       const label = document.querySelector("[data-theme-label]");
       const metaTheme = document.querySelector('meta[name="theme-color"]');
       const storageKey = "qr-theme";
+      const mobileNavQuery = window.matchMedia("(max-width: 640px)");
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
       const validModes = new Set(["auto", "light", "dark"]);
       const nextMode = {
@@ -999,6 +1141,36 @@
         return validModes.has(storedMode) ? storedMode : "auto";
       };
 
+      const triggerFileDownload = async (link) => {
+        const url = new URL(link.href, window.location.href);
+        const filename = link.getAttribute("download") || url.pathname.split("/").pop() || "download";
+        const response = await fetch(url, { credentials: "same-origin" });
+
+        if (!response.ok) {
+          throw new Error(`Download failed with status ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const objectUrl = window.URL.createObjectURL(blob);
+        const tempLink = document.createElement("a");
+
+        tempLink.href = objectUrl;
+        tempLink.download = filename;
+        tempLink.style.display = "none";
+        document.body.append(tempLink);
+        tempLink.click();
+        tempLink.remove();
+
+        window.setTimeout(() => {
+          window.URL.revokeObjectURL(objectUrl);
+        }, 1000);
+      };
+
+      const setMenuOpen = (open) => {
+        navBar.dataset.menuOpen = String(open);
+        menuToggle.setAttribute("aria-expanded", String(open));
+      };
+
       const getSystemTheme = () => (mediaQuery.matches ? "dark" : "light");
 
       const applyMode = (mode) => {
@@ -1020,7 +1192,41 @@
 
       let mode = getStoredMode();
       toggle.disabled = false;
+      setMenuOpen(false);
       applyMode(mode);
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = navBar.dataset.menuOpen === "true";
+        setMenuOpen(!isOpen);
+      });
+
+      navLinks.addEventListener("click", (event) => {
+        if (mobileNavQuery.matches && event.target instanceof Element && event.target.closest("a")) {
+          setMenuOpen(false);
+        }
+      });
+
+      downloadLinks.forEach((link) => {
+        link.addEventListener("click", async (event) => {
+          if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+
+          try {
+            await triggerFileDownload(link);
+          } catch (error) {
+            window.location.assign(link.href);
+          }
+        });
+      });
 
       toggle.addEventListener("click", () => {
         mode = nextMode[mode];
@@ -1037,6 +1243,19 @@
       mediaQuery.addEventListener("change", () => {
         if (mode === "auto") {
           applyMode(mode);
+        }
+      });
+
+      mobileNavQuery.addEventListener("change", (event) => {
+        if (!event.matches) {
+          setMenuOpen(false);
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && navBar.dataset.menuOpen === "true") {
+          setMenuOpen(false);
+          menuToggle.focus();
         }
       });
     })();
